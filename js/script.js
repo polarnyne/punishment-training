@@ -1,13 +1,17 @@
 // UI Controller
 function playPunish() {
     
-    vid.currentTime = 0;     
-    vid.play();
+    vid.onloadeddata = function() {
+        vid.currentTime = 0;     
+        vid.play();
+    
+        setTimeout(function(){ 
+            vid.pause();
+        }
+        , pauseTime);
+    };
 
-    setTimeout(function(){ 
-        vid.pause();
-    }
-    , pauseTime);
+    
 };
 
 function changeSource(url) {
