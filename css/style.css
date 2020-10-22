@@ -5,6 +5,7 @@ body {
     font-family: 'lato', 'helvetica', sans-serif;
 }
 
+/* Display Punish / Block */
 h1 {
     color: 	#78E28F;
     position: absolute;
@@ -17,6 +18,28 @@ h1 {
     /* display: none; */
 }
 
+/* info punish */
+.info-punish {
+    width: fit-content;
+    margin-top: 10vw;
+    margin-left: 5vw;
+    background-color: rgba(2, 2, 2, 0.9);
+}
+
+.move-data {
+    color: #ffffff;
+}
+
+.player-container {
+    margin-top: 60px;
+}
+
+#streak {
+    font-size: 40px;
+    color: aliceblue;
+}
+
+/* game display / options */
 .container-game {
     position: absolute;
     top: 50%;

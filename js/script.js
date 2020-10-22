@@ -1,17 +1,12 @@
 // UI Controller
 function playPunish() {
-    
-    vid.onloadeddata = function() {
-        vid.currentTime = 0;     
-        vid.play();
-    
-        setTimeout(function(){ 
-            vid.pause();
-        }
-        , pauseTime);
-    };
+    vid.currentTime = 0;     
+    vid.play();
 
-    
+    setTimeout(function(){ 
+        vid.pause();
+    }
+    , pauseTime);
 };
 
 function changeSource(url) {
@@ -37,6 +32,11 @@ var answer = function(option) {
     return function curried_func(e) {
         var slot = document.querySelector(option).innerHTML;
         if (slot === perfectPunish[0]) {
+
+            // Let's show the frame data
+            document.querySelector(DOMstrings.move1p).innerHTML = perfectPunish[0];
+            document.querySelector(DOMstrings.move2p).innerHTML = kazumi[blockedMove][2];
+
             displayPunish();
             vid.play();
             vid.onended = function(e) {
@@ -54,6 +54,12 @@ var answer = function(option) {
 var blockedMove, goodPunish, perfectPunish, notPunish, pauseTime, vid;
 
 var DOMstrings = {
+    infoPunish: '.info-punish',
+    streak: '#streak',
+    player1: '#player1',
+    player2: '#player2',
+    move1p: '#move-1p',
+    move2p: '#move-2p',
     optionsContainer: '.options',
     option1: '#q1',
     option2: '#q2',
@@ -197,7 +203,8 @@ var lili = [
     ['ws1,2', 13, -3, 'mid', 31, 1.5, 1.4, 0],
     ['ws4', 11, -8, 'mid', 18, .5, 2, 0],
     ['f2,3', 12, -15, 'mid', 32, 1.5, 1.4, 0],
-    ['df2', 16, -11, 'mid', 16, 2, 1, 0]
+    ['df2', 16, -11, 'mid', 16, 2, 1, 0],
+    ['Lili']
 ];
 
 var kazumi = [
@@ -211,7 +218,8 @@ var kazumi = [
     ['f3+4,2', 15, -10, 'mid', 20, 2.5, 1, 2500],
     ['f3+4,1', 19, -11, 'mid', 25, 3.5, .5, 1500],
     ['f3+4,4,2', 18, -31, 'low', 31, 3, 1, 1450],
-    ['f+3+4~3+4', 19, -15, 'mid', 22, 5, 1, 1550]
+    ['f+3+4~3+4', 19, -15, 'mid', 22, 5, 1, 1550],
+    ['Kazumi']
 ];
 
 function init() {
@@ -227,6 +235,9 @@ function init() {
     document.querySelector(DOMstrings.option1).addEventListener("click", answer(DOMstrings.option1));
     document.querySelector(DOMstrings.option2).addEventListener("click", answer(DOMstrings.option2));
     document.querySelector(DOMstrings.option3).addEventListener("click", answer(DOMstrings.option3));
+
+    document.querySelector(DOMstrings.infoPunish).style.display = 'none';
+
 };
 
 
