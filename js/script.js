@@ -25,33 +25,46 @@ function displayBlocked() {
     document.querySelector(DOMstrings.alert).innerHTML = 'Blocked';
     document.querySelector(DOMstrings.alert).style.color = '#8c0200';
     document.querySelector(DOMstrings.alert).style.display = 'block';
+    document.querySelector(DOMstrings.streak).innerHTML = ' - ';
     setTimeout(function(){ document.querySelector(DOMstrings.alert).style.display = 'none'; }, 1000);
+};
+
+function displayPunishInfo() {
+    document.querySelector(DOMstrings.infoPunish).style.display = 'block';
+    // Let's show the frame data
+    document.querySelector(DOMstrings.player1).innerHTML = defender[0][0] + ' | ' + perfectPunish[0];
+    document.querySelector(DOMstrings.player2).innerHTML = attacker[0][0] + ' | ' + attacker[1][blockedMove][0];
+
+    document.querySelector(DOMstrings.move1p).innerHTML = 'i' + perfectPunish[1];
+    document.querySelector(DOMstrings.move2p).innerHTML = attacker[1][blockedMove][2];
+};
+
+function displayStreak() {
+    document.querySelector(DOMstrings.streak).innerHTML = streak + ' streak!'
 };
 
 var answer = function(option) {
     return function curried_func(e) {
         var slot = document.querySelector(option).innerHTML;
         if (slot === perfectPunish[0]) {
-
-            // Let's show the frame data
-            document.querySelector(DOMstrings.move1p).innerHTML = perfectPunish[0];
-            document.querySelector(DOMstrings.move2p).innerHTML = kazumi[blockedMove][2];
-
+            streak += 1;
+            if (streak > 1) { displayStreak() };
+            displayPunishInfo();
             displayPunish();
             vid.play();
             vid.onended = function(e) {
-                findPunish(kazumi, lili);
+                findPunish(attacker, defender);
             };
             
-            
         } else {
+            streak = 0;
             displayBlocked();
         }
     }
 };
 
 // Processing data
-var blockedMove, goodPunish, perfectPunish, notPunish, pauseTime, vid;
+var blockedMove, goodPunish, perfectPunish, notPunish, pauseTime, vid, attacker, defender, streak;
 
 var DOMstrings = {
     infoPunish: '.info-punish',
@@ -120,39 +133,39 @@ function findPunish(player1, player2) {
     notPunish = new Array;
 
     // gets a random move
-    blockedMove = getRandomMove(0, (player1.length - 1));
-    pauseTime = player1[blockedMove][7];
-    console.log(player1[blockedMove]);
+    blockedMove = getRandomMove(0, (player1[1].length - 1));
+    pauseTime = player1[1][blockedMove][7];
+    console.log(player1[1][blockedMove]);
 
     // get a particular move (Troubleshooting)
     // blockedMove = 11;
     // pauseTime = player1[blockedMove][7];
     // console.log(player1[blockedMove]);
 
-    for (var i = 0; i < player2.length; i++) {
+    for (var i = 0; i < player2[1].length; i++) {
 
         // Does the punish reach?
-        if(player1[blockedMove][6] <= player2[i][5]) {
+        if(player1[1][blockedMove][6] <= player2[1][i][5]) {
             
-            if (player1[blockedMove][3] === 'low') {
+            if (player1[1][blockedMove][3] === 'low') {
 
                 // Let's check if the attack is low and should be punished with a while standing move
-                if (player2[i][1] <= ((player1[blockedMove][2] * -1)) && player2[i][0].startsWith('ws')) {
-                    goodPunish.push(player2[i]);
+                if (player2[1][i][1] <= ((player1[1][blockedMove][2] * -1)) && player2[1][i][0].startsWith('ws')) {
+                    goodPunish.push(player2[1][i]);
                     
                 } else {
-                    notPunish.push(player2[i][0]);
+                    notPunish.push(player2[1][i][0]);
                 }
             } else { // if not whileStanding
                 
-                if (player2[i][1] <= ((player1[blockedMove][2] * -1)) && !(player2[i][0].startsWith('ws'))) {
-                    goodPunish.push(player2[i]);
+                if (player2[1][i][1] <= ((player1[1][blockedMove][2] * -1)) && !(player2[1][i][0].startsWith('ws'))) {
+                    goodPunish.push(player2[1][i]);
                 } else {
-                    notPunish.push(player2[i][0]);
+                    notPunish.push(player2[1][i][0]);
                 }
             }
         } else {
-            notPunish.push(player2[i][0]);
+            notPunish.push(player2[1][i][0]);
         }
 
     };
@@ -160,6 +173,7 @@ function findPunish(player1, player2) {
     perfectPunish = [0, 0, 0, 0];
 
     console.log('---- goodPunish ----');
+    console.log(goodPunish);
     // Let's find out which is the perfect punish
     for (i = (goodPunish.length - 1); i >= 0; i--) {
 
@@ -180,10 +194,12 @@ function findPunish(player1, player2) {
     // Punish options completed!
     punishOptions.push(getRandomFromArray(notPunish, 2));
     punishOptions[0].push(perfectPunish[0]);
+    console.log('---- Punish options ----');
+    console.log(punishOptions);
 
     punishOptions = shuffle(punishOptions[0]);
 
-    changeSource('../video/' + player1[blockedMove][0] + '.mp4');
+    changeSource('../video/' + player1[1][blockedMove][0] + '.mp4');
     
 
     document.querySelector(DOMstrings.option1).innerHTML = punishOptions[0];
@@ -195,6 +211,8 @@ function findPunish(player1, player2) {
 // --- Data --- //
 var lili = [
     // [move, startup, onBlock, hit, damage, range, rangeOnblock, videoStop(ms)]
+    ['Lili'],
+    [
     ['d3+4', 17, -21, 'mid', 23, 1.5, 1.2, 0],
     ['2,4', 10, -2, 'high', 28, .5, 1.3, 0],
     ['1,2', 10, -1, 'high', 19, 1, 1.3, 0],
@@ -203,11 +221,13 @@ var lili = [
     ['ws1,2', 13, -3, 'mid', 31, 1.5, 1.4, 0],
     ['ws4', 11, -8, 'mid', 18, .5, 2, 0],
     ['f2,3', 12, -15, 'mid', 32, 1.5, 1.4, 0],
-    ['df2', 16, -11, 'mid', 16, 2, 1, 0],
-    ['Lili']
+    ['df2', 16, -11, 'mid', 16, 2, 1, 0]
+    ]
 ];
 
 var kazumi = [
+    ['Kazumi'],
+    [
     ['1,1,2', 10, -17, 'mid', 25, 3, 1.5, 1000],
     ['uf4', 15, -13, 'mid', 13, 1, 1.5, 2000],
     ['df1,2', 13, -13, 'low', 31, 2.5, 1.5, 2100],
@@ -218,9 +238,13 @@ var kazumi = [
     ['f3+4,2', 15, -10, 'mid', 20, 2.5, 1, 2500],
     ['f3+4,1', 19, -11, 'mid', 25, 3.5, .5, 1500],
     ['f3+4,4,2', 18, -31, 'low', 31, 3, 1, 1450],
-    ['f+3+4~3+4', 19, -15, 'mid', 22, 5, 1, 1550],
-    ['Kazumi']
+    ['f+3+4~3+4', 19, -15, 'mid', 22, 5, 1, 1550]
+    ]
 ];
+
+attacker = kazumi;
+defender = lili;
+streak = 0;
 
 function init() {
     vid = document.getElementById("my-video");
@@ -228,13 +252,16 @@ function init() {
     document.querySelector(DOMstrings.option1).innerHTML = '-';
     document.querySelector(DOMstrings.option2).innerHTML = '-';
     document.querySelector(DOMstrings.option3).innerHTML = '-';
+    document.querySelector(DOMstrings.streak).innerHTML = ' - ';
     document.querySelector(DOMstrings.alert).style.display = 'none';
-
-    findPunish(kazumi, lili);
 
     document.querySelector(DOMstrings.option1).addEventListener("click", answer(DOMstrings.option1));
     document.querySelector(DOMstrings.option2).addEventListener("click", answer(DOMstrings.option2));
     document.querySelector(DOMstrings.option3).addEventListener("click", answer(DOMstrings.option3));
+
+    
+
+    findPunish(attacker, defender);
 
     document.querySelector(DOMstrings.infoPunish).style.display = 'none';
 
