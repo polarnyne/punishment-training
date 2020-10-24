@@ -26,12 +26,19 @@ h1 {
     background-color: rgba(2, 2, 2, 0.9);
 }
 
-p {
-    margin: 4px;
-    font-size: 20px;
+
+
+#streak {
+    position: fixed;
+    /* margin-bottom: 15px; */
+    font-size: 40px;
+    color: rgb(255, 1, 1);
+    -webkit-text-stroke-width: 1px;
+    -webkit-text-stroke-color: rgb(255, 255, 255, .6);
 }
 
 .move-data {
+    position: fixed;
     color: #ffffff;
 }
 
@@ -39,10 +46,57 @@ p {
     margin-top: 60px;
 }
 
-#streak {
-    font-size: 40px;
-    color: aliceblue;
+p {
+    margin: 4px;
+    font-size: 20px;
 }
+
+
+@-webkit-keyframes scale-up-center {
+    0% {
+        -webkit-transform: scale(0.5);
+            transform: scale(0.5);
+    }
+    100% {
+        -webkit-transform: scale(1);
+            transform: scale(1);
+    }
+}
+
+@keyframes scale-up-center {
+    0% {
+        -webkit-transform: scale(0.5);
+            transform: scale(0.5);
+    }
+    100% {
+        -webkit-transform: scale(1);
+            transform: scale(1);
+    }
+}
+
+/*Reverse*/
+@-webkit-keyframes scale-up-center-reverse {
+    0% {
+        -webkit-transform: scale(1);
+            transform: scale(1);
+    }
+    100% {
+      -webkit-transform: scale(0.5);
+            transform: scale(0.5);
+    }
+}
+
+@keyframes scale-up-center-reverse {
+    0% {
+        -webkit-transform: scale(1);
+            transform: scale(1);
+    }
+    100% {
+        -webkit-transform: scale(0);
+            transform: scale(0);
+    }
+}
+  
 
 /* game display / options */
 .container-game {

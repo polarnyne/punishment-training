@@ -25,12 +25,19 @@ function displayBlocked() {
     document.querySelector(DOMstrings.alert).innerHTML = 'Blocked';
     document.querySelector(DOMstrings.alert).style.color = '#8c0200';
     document.querySelector(DOMstrings.alert).style.display = 'block';
-    document.querySelector(DOMstrings.streak).innerHTML = ' - ';
+
+    document.querySelector(DOMstrings.streak).style.animation = 'scale-up-center-reverse 0.1s cubic-bezier(1, 0.575, 0.565, 0) both';
+    // document.querySelector(DOMstrings.streak).style.display = 'none';
+
+    // document.querySelector(DOMstrings.streak).innerHTML = ' - ';
+
+
     setTimeout(function(){ document.querySelector(DOMstrings.alert).style.display = 'none'; }, 1000);
 };
 
 function displayPunishInfo() {
     document.querySelector(DOMstrings.infoPunish).style.display = 'block';
+    
     // Let's show the frame data
     document.querySelector(DOMstrings.player1).innerHTML = defender[0][0] + ' | ' + perfectPunish[0];
     document.querySelector(DOMstrings.player2).innerHTML = attacker[0][0] + ' | ' + attacker[1][blockedMove][0];
@@ -40,7 +47,10 @@ function displayPunishInfo() {
 };
 
 function displayStreak() {
+    document.querySelector(DOMstrings.streak).style.display = 'block';
     document.querySelector(DOMstrings.streak).innerHTML = streak + ' streak!'
+    document.querySelector(DOMstrings.streak).style.animationDirection = 'normal';
+    document.querySelector(DOMstrings.streak).style.animation = 'scale-up-center 0.2s cubic-bezier(0, 0.575, 0.565, 1.000) both';
 };
 
 var answer = function(option) {
@@ -73,6 +83,7 @@ var DOMstrings = {
     player2: '#player2',
     move1p: '#move-1p',
     move2p: '#move-2p',
+    moveData: '.move-data',
     optionsContainer: '.options',
     option1: '#q1',
     option2: '#q2',
@@ -264,6 +275,7 @@ function init() {
     findPunish(attacker, defender);
 
     document.querySelector(DOMstrings.infoPunish).style.display = 'none';
+    document.querySelector(DOMstrings.streak).style.display = 'none';
 
 };
 
