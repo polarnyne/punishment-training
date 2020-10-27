@@ -79,6 +79,8 @@ var blockedMove, goodPunish, perfectPunish, notPunish, pauseTime, vid, attacker,
 var DOMstrings = {
     infoPunish: '.info-punish',
     streak: '#streak',
+    kazumiImg: '#kazumi-img',
+    liliImg: '#lili-img',
     player1: '#player1',
     player2: '#player2',
     move1p: '#move-1p',
@@ -90,7 +92,8 @@ var DOMstrings = {
     option3: '#q3',
     alert: '#alert',
     playBtn: '#play-button',
-    video: '#my-video'
+    video: '#my-video',
+    containerGame: '.container-game'
 };
 
 function getRandomMove(min, max) {
@@ -136,6 +139,11 @@ function shuffle(array) {
 };
 
 function findPunish(player1, player2) {
+    document.querySelector(DOMstrings.liliImg).style.display = 'none';
+    document.querySelector(DOMstrings.kazumiImg).style.display = 'none';
+
+    document.querySelector(DOMstrings.containerGame).style.display = 'block';
+
     var punishOptions;
 
     // player1 attacks and player2 punish
@@ -219,6 +227,20 @@ function findPunish(player1, player2) {
 
 };
 
+function setKazumi() {
+    attacker = lili;
+    defender = kazumi;
+    
+    findPunish(attacker, defender);
+};
+
+function setLili() {
+    attacker = kazumi;
+    defender = lili;
+
+    findPunish(attacker, defender);
+};
+
 // --- Data --- //
 var lili = [
     // [move, startup, onBlock, hit, damage, range, rangeOnblock, videoStop(ms)]
@@ -253,8 +275,6 @@ var kazumi = [
     ]
 ];
 
-attacker = kazumi;
-defender = lili;
 streak = 0;
 
 function init() {
@@ -270,13 +290,9 @@ function init() {
     document.querySelector(DOMstrings.option2).addEventListener("click", answer(DOMstrings.option2));
     document.querySelector(DOMstrings.option3).addEventListener("click", answer(DOMstrings.option3));
 
-    
-
-    findPunish(attacker, defender);
-
     document.querySelector(DOMstrings.infoPunish).style.display = 'none';
     document.querySelector(DOMstrings.streak).style.display = 'none';
-
+    document.querySelector(DOMstrings.containerGame).style.display = 'none';
 };
 
 
