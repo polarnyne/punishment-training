@@ -323,19 +323,3 @@ function init() {
     document.querySelector(DOMstrings.streak).style.display = 'none';
     document.querySelector(DOMstrings.containerGame).style.display = 'none';
 };
-
-
-/*
---- Kazumi punish list ---
-Burst Punch Combo -- d3+4
-Lightning God's Rage -- 2,3
-Wind God's Fury -- 1,2
-Hellfire Burst -- ws2
-Rising Mountain Kick -- uf3
-Crimson Dawn -- ws1,2
-Tiger wind uppercut -- d3+4
-Rolling Thunder -- ws4
-Crushing knee -- f2,3
-Diamond Strike -- f2,3
-Demon Uppercut -- f2,3
-*/
