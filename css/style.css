@@ -68,7 +68,7 @@ body {
 
 
 /* Display Punish / Block */
-h1 {
+#alert {
     color: 	#78E28F;
     position: absolute;
     top: 70%;
@@ -78,6 +78,10 @@ h1 {
     -webkit-text-stroke-width: 2px;
     -webkit-text-stroke-color: rgba(0, 0, 0, 0.4);
     /* display: none; */
+}
+
+.hidden {
+    display: none;
 }
 
 /* info punish */
