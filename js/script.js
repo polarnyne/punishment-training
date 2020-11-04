@@ -260,7 +260,7 @@ function setLili() {
 // --- Data --- //
 var lili = [
     // [move, startup, onBlock, hit, damage, range, rangeOnblock, launcherPriority, videoStop(ms)]
-    ['Lili'],
+    ['lili'],
     [
     ['1+2', 12, -12, 'mid', 26, 0, 0, 0, 750],
     ['d1+2', 20, -13, 'mid', 20, 1, 1.5, 0, 1000],
@@ -286,7 +286,7 @@ var lili = [
 
 var kazumi = [
     // [move, startup, onBlock, hit, damage, range, rangeOnblock, LauncherPriority, videoStop(ms)]
-    ['Kazumi'],
+    ['kazumi'],
     [
     ['1+2', 12, -14, 'mid', 30, 1, 2, 0, 0],
     ['ws4,4', 11, -6, 'mid', 29, 1, 2, 0, 0],
