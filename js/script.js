@@ -233,6 +233,7 @@ function findPunish(player1, player2) {
         punishOptions = shuffle(punishOptions[0]);
 
         changeSource('../video/' + attacker[0][0] + '/' + player1[1][blockedMove][0] + '.mp4');
+        console.log('../video/' + attacker[0][0] + '/' + player1[1][blockedMove][0] + '.mp4')
 
         document.querySelector(DOMstrings.option1).innerHTML = punishOptions[0];
         document.querySelector(DOMstrings.option2).innerHTML = punishOptions[1];
