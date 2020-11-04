@@ -153,13 +153,14 @@ function findPunish(player1, player2) {
 
     // gets a random move
     blockedMove = getRandomMove(0, (player1[1].length - 1));
-    pauseTime = player1[1][blockedMove][7];
+    pauseTime = player1[1][blockedMove][8];
     console.log(player1[1][blockedMove]);
 
     // get a particular move (Troubleshooting)
-    // blockedMove = 11;
-    // pauseTime = player1[blockedMove][7];
-    // console.log(player1[blockedMove]);
+    // blockedMove = 0;
+    // pauseTime = player1[1][blockedMove][8];
+    // console.log('---- blocked move ----');
+    // console.log(player1[1][blockedMove]);
 
     for (var i = 0; i < player2[1].length; i++) {
 
@@ -189,42 +190,57 @@ function findPunish(player1, player2) {
 
     };
 
-    perfectPunish = [0, 0, 0, 0];
+    perfectPunish = [0, 0, 0, 0, 0, 0, 0, 0, 0];
 
     console.log('---- goodPunish ----');
     console.log(goodPunish);
     // Let's find out which is the perfect punish
     for (i = (goodPunish.length - 1); i >= 0; i--) {
 
-        // Which is the punish closest to 0 frames?
-        if ((goodPunish[i][1]) > (perfectPunish[1])) {
+        if (goodPunish[i][7] > (perfectPunish[7])) {
             perfectPunish = goodPunish[i];
-        } 
-        
-        // Whic is the punish with more damage?
-        if (goodPunish[i][1] === perfectPunish[1]) {
-            perfectPunish = goodPunish[i];
-        } 
+            continue
+        }
+
+        // Which has the best launcher priority?
+        if (goodPunish[i][7] === (perfectPunish[7])) {
+            // Which is the punish closest to 0 frames?
+            if ((goodPunish[i][1]) > (perfectPunish[1])) {
+                perfectPunish = goodPunish[i];
+                continue
+            } 
+            
+            // Which is the punish with more damage?
+            if ((goodPunish[i][4] > perfectPunish[4]) && (goodPunish[i][7]) <= (perfectPunish[7])) {
+                perfectPunish = goodPunish[i];
+                continue
+            } 
+
+        }
     };
 
     console.log('---- perfect punish ----');
     console.log(perfectPunish);
 
-    // Punish options completed!
-    punishOptions.push(getRandomFromArray(notPunish, 2));
-    punishOptions[0].push(perfectPunish[0]);
-    console.log('---- Punish options ----');
-    console.log(punishOptions);
+    // Let's check out if it's punishable or not
+    if (perfectPunish[0] != 0) {
+        // Punish options completed!
+        punishOptions.push(getRandomFromArray(notPunish, 2));
+        punishOptions[0].push(perfectPunish[0]);
+        console.log('---- Punish options ----');
+        console.log(punishOptions);
 
-    punishOptions = shuffle(punishOptions[0]);
+        punishOptions = shuffle(punishOptions[0]);
 
-    changeSource('../video/' + player1[1][blockedMove][0] + '.mp4');
-    
+        changeSource('../video/' + attacker[0][0] + '/' + player1[1][blockedMove][0] + '.mp4');
 
-    document.querySelector(DOMstrings.option1).innerHTML = punishOptions[0];
-    document.querySelector(DOMstrings.option2).innerHTML = punishOptions[1];
-    document.querySelector(DOMstrings.option3).innerHTML = punishOptions[2];
-
+        document.querySelector(DOMstrings.option1).innerHTML = punishOptions[0];
+        document.querySelector(DOMstrings.option2).innerHTML = punishOptions[1];
+        document.querySelector(DOMstrings.option3).innerHTML = punishOptions[2];
+    } else {
+        findPunish(attacker, defender);
+        console.log('not punishable');
+    }
 };
 
 function setKazumi() {
@@ -243,35 +259,48 @@ function setLili() {
 
 // --- Data --- //
 var lili = [
-    // [move, startup, onBlock, hit, damage, range, rangeOnblock, videoStop(ms)]
+    // [move, startup, onBlock, hit, damage, range, rangeOnblock, launcherPriority, videoStop(ms)]
     ['Lili'],
     [
-    ['d3+4', 17, -21, 'mid', 23, 1.5, 1.2, 0],
-    ['2,4', 10, -2, 'high', 28, .5, 1.3, 0],
-    ['1,2', 10, -1, 'high', 19, 1, 1.3, 0],
-    ['ws2', 16, -12, 'mid', 17, 2, .8, 0],
-    ['uf3', 15, -13, 'mid', 13, 1.5, .8, 0],
-    ['ws1,2', 13, -3, 'mid', 31, 1.5, 1.4, 0],
-    ['ws4', 11, -8, 'mid', 18, .5, 2, 0],
-    ['f2,3', 12, -15, 'mid', 32, 1.5, 1.4, 0],
-    ['df2', 16, -11, 'mid', 16, 2, 1, 0]
+    ['1+2', 12, -12, 'mid', 26, 0, 0, 0, 750],
+    ['d1+2', 20, -13, 'mid', 20, 1, 1.5, 0, 1000],
+    ['db4', 30, -24, 'low', 20, 2, 0, 0, 1100],
+    ['db3+4', 24, -18, 'low', 20, 2.5, 0, 0, 950],
+    ['BT d3+4', 22, -26, 'low', 2, 2.5, 1.5, 0, 1650],
+    ['uf3+4,3+4', 15, -21, 'mid', 37, 2, 1, 0, 1300],
+    ['ff2', 18, -17, 'mid', 20, 2.5, 0, 0, 900],
+    ['ff4', 22, -12, 'low', 23, 2.5, 1, 0, 800],
+    ['qcf,1,2', 15, -14, 'mid', 36, 3.5, 1.5, 0, 1000],
+    ['FC df3', 23, -18, 'low', 19, 3.5, 0, 0, 1400],
+    ['d3+4', 17, -21, 'mid', 23, 1.5, 1.2, 3, 1400],
+    ['2,4', 10, -2, 'high', 28, .5, 1.3, 0, 0],
+    ['1,2', 10, -1, 'high', 19, 1, 1.3, 0, 0],
+    ['ws2', 16, -12, 'mid', 17, 2, .8, 1, 1000],
+    ['uf3', 15, -13, 'mid', 13, 1.5, .8, 1, 1000],
+    ['ws1,2', 13, -3, 'mid', 31, 1.5, 1.4, 0, 0],
+    ['ws4', 11, -8, 'mid', 18, .5, 2, 0, 0],
+    ['f2,3', 12, -5, 'mid', 32, 1.5, 1.4, 0, 0],
+    ['df2', 16, -11, 'mid', 16, 2, 1, 1, 600]
     ]
 ];
 
 var kazumi = [
+    // [move, startup, onBlock, hit, damage, range, rangeOnblock, LauncherPriority, videoStop(ms)]
     ['Kazumi'],
     [
-    ['1,1,2', 10, -17, 'mid', 25, 3, 1.5, 1000],
-    ['uf4', 15, -13, 'mid', 13, 1, 1.5, 2000],
-    ['df1,2', 13, -13, 'low', 31, 2.5, 1.5, 2100],
-    ['df2', 18, -24, 'mid', 29, 2.5, 1.5, 1000],
-    ['db4', 20, -12, 'low', 17, 1, .5, 1000],
-    ['ff2', 13, -13, 'mid', 37, 2, 1, 1400],
-    ['ws2', 18, -12, 'mid', 20, 1.5, 1, 1500],
-    ['f3+4,2', 15, -10, 'mid', 20, 2.5, 1, 2500],
-    ['f3+4,1', 19, -11, 'mid', 25, 3.5, .5, 1500],
-    ['f3+4,4,2', 18, -31, 'low', 31, 3, 1, 1450],
-    ['f+3+4~3+4', 19, -15, 'mid', 22, 5, 1, 1550]
+    ['1+2', 12, -14, 'mid', 30, 1, 2, 0, 0],
+    ['ws4,4', 11, -6, 'mid', 29, 1, 2, 0, 0],
+    ['1,1,2', 10, -17, 'mid', 25, 1, 1.5, 0, 1000],
+    ['uf4', 15, -13, 'mid', 13, 1, 1.5, 1, 2000],
+    ['df1,2', 13, -13, 'low', 21, 2.5, 1.5, 0, 2100],
+    ['df2', 18, -24, 'mid', 29, 2.5, 1.5, 2, 1000],
+    ['db4', 20, -12, 'low', 17, 1, .5, 0, 1000],
+    ['ff2', 13, -13, 'mid', 37, 2, 1, -1, 1400],
+    ['ws2', 18, -12, 'mid', 20, 1.5, 1, 1, 1500],
+    ['f3+4,2', 15, -10, 'mid', 20, 2.5, 1, 0, 2500],
+    ['f3+4,1', 19, -11, 'mid', 25, 3.5, .5, 0, 1500],
+    ['f3+4,4,2', 18, -31, 'low', 31, 3, 1, 0, 1450],
+    ['f+3+4~3+4', 19, -15, 'mid', 22, 5, 1, 0, 1550]
     ]
 ];
 
