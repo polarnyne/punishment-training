@@ -1,5 +1,7 @@
 body {
-    background-image: url(../img/bg4.jpg);
+    /* background-image: url(../img/bg4.jpg); */
+    background: rgb(74,74,74);
+background: linear-gradient(180deg, rgba(74,74,74,1) 0%, rgba(97,5,5,1) 100%);
     background-repeat: no-repeat;
     background-position: right top;
     font-family: 'lato', 'helvetica', sans-serif;
@@ -92,6 +94,14 @@ body {
     background-color: rgba(2, 2, 2, 0.9);
 }
 
+#player1:first-letter {
+    text-transform: capitalize;
+}
+
+#player2:first-letter {
+    text-transform: capitalize;
+}
+
 #streak {
     position: fixed;
     /* margin-bottom: 15px; */
@@ -113,6 +123,13 @@ body {
 p {
     margin: 4px;
     font-size: 20px;
+}
+
+#move-1p {
+    color: rgb(148, 148, 255);
+}
+#move-2p {
+    color: rgb(255, 72, 72);
 }
 
 
@@ -184,13 +201,13 @@ video {
 }
 
 button {
-    font-size: 45px;
-    width: 200px;
+    font-size: 30px;
+    width: 230px;
     border-radius: 20px;
     outline: none;
 }
 
 button:active {
-    background-color: aqua;
+    background-color: rgb(132, 255, 132);
     outline: none;
 }
