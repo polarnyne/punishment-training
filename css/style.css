@@ -1,7 +1,7 @@
 body {
     /* background-image: url(../img/bg4.jpg); */
     background: rgb(74,74,74);
-background: linear-gradient(180deg, rgba(74,74,74,1) 0%, rgba(97,5,5,1) 100%);
+background: linear-gradient(180deg, rgb(216, 187, 108) 0%, rgba(97,5,5,1) 100%);
     background-repeat: no-repeat;
     background-position: right top;
     font-family: 'lato', 'helvetica', sans-serif;
